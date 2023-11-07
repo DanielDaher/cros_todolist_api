@@ -47,8 +47,9 @@ const create = async (req:IRequestUser, res:Response) => {
 const updateTaskById = async (req:IRequestUser, res:Response) => {
   try {
     const { id } = req.params;
-    const { title, description, status } = req.body;
-    const updateInfos = await tasksService.updateTaskById({ title, description, status }, id);
+    const { id: authorId } = req.user;
+    const { title, description, status, Subtask } = req.body;
+    const updateInfos = await tasksService.updateTaskById({ title, description, status }, id, Subtask, authorId);
 
     res.status(updateInfos.statusCode).json(updateInfos.responseMessage);
   } catch (error) {

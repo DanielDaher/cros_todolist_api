@@ -1,3 +1,4 @@
+import { Subtask } from "@prisma/client";
 import tasksModel, { CreateTask, UpdateTask } from "../models/tasksModel";
 import helpers from "./helpers";
 
@@ -29,7 +30,7 @@ const create = async (query:CreateTask) => {
   return { responseMessage: insert, statusCode };
 };
 
-const updateTaskById = async (query:UpdateTask, id:string) => {
+const updateTaskById = async (query:UpdateTask, id:string, Subtask:Subtask, authorId:number) => {
   // const responseMessage = `Invalid info. The fields 'task' and 'status' are required on this body requisition`;
   // const validReqBody = helpers.validateReqBody(query);
   const findTask = await tasksModel.getById(parseInt(id));
@@ -37,7 +38,7 @@ const updateTaskById = async (query:UpdateTask, id:string) => {
   if (!findTask) return { statusCode: 404, responseMessage: 'task not found!' };
   // if (!validReqBody) return { statusCode: 400, responseMessage };
 
-  const updateInfos = await tasksModel.updateTaskById(query, parseInt(id));
+  const updateInfos = await tasksModel.updateTaskById(query, parseInt(id), Subtask, authorId);
 
   return { responseMessage: updateInfos, statusCode: 200 };
 };

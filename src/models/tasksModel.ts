@@ -1,4 +1,4 @@
-import { Prisma } from '@prisma/client';
+import { Prisma, Subtask, Task } from '@prisma/client';
 import { db } from '../utils/db';
 
 export type CreateTask = Prisma.Args<typeof db.task, 'create'>['data'];
@@ -32,9 +32,16 @@ const create = async (query:CreateTask) => {
   }
 };
 
-const updateTaskById = async (query:UpdateTask, id:number) => {
+const updateTaskById = async (query:UpdateTask, id:number, Subtask:Subtask, authorId:number) => {
   try {
-    const updateInfos = db.task.update({ where: { id }, data: query });
+    const updateInfos = db.task.update({ where: { id }, data: {
+      ...query,
+      Subtask: { upsert: { 
+        where: { id: Subtask.id ?? 0 },
+        update: { ...Subtask },
+        create: { ...Subtask, authorId },
+       } },
+    } });
     return updateInfos;
   } catch (error) {
     return { }
