@@ -1,58 +1,79 @@
-import { Subtask } from "@prisma/client";
-import tasksModel, { CreateTask, UpdateTask } from "../models/tasksModel";
+import tasksModel, { UpdateTask } from "../models/tasksModel";
+import { CreateTask } from "../schemas/tasks";
 import helpers from "./helpers";
 
-
-const getAll = async (author:number) => {
-  const tasks = await tasksModel.getAll(author);
-  if (tasks.length < 1) return { statusCode: 200, responseMessage: 'this user has no tasks yet!' };
+const getAll = async (authorId: number) => {
+  const tasks = await tasksModel.getAll(authorId);
+  if (tasks.length < 1)
+    return { statusCode: 200, responseMessage: "this user has no tasks yet!" };
 
   return { statusCode: 200, responseMessage: tasks };
 };
 
-const getById = async (id:string) => {
-  const task = await tasksModel.getById(parseInt(id));
-  if (!task) return { statusCode: 404, responseMessage: 'task not found!' };
+const getById = async (id: number) => {
+  const task = await tasksModel.getById(id);
+  if (!task) return { statusCode: 404, responseMessage: "task not found!" };
 
   return { statusCode: 200, responseMessage: task };
 };
 
-const create = async (query:CreateTask, Subtask:Subtask[], authorId:number) => {
+const create = async (query: CreateTask, authorId: number) => {
   const responseMessage = `Invalid info. The fields 'title' and 'status' are required on this body requisition`;
   const validReqBody = helpers.validateReqBody(query);
 
   if (!validReqBody) return { statusCode: 400, responseMessage };
 
-  const insert = await tasksModel.create(query, Subtask, authorId);
+  const insert = await tasksModel.create(query, authorId);
 
-  const statusCode = insert === 'failed' ? 400 : 201;
+  const statusCode = insert === "failed" ? 400 : 201;
 
   return { responseMessage: insert, statusCode };
 };
 
-const updateTaskById = async (query:UpdateTask, id:string, Subtask:Subtask, authorId:number) => {
-  // const responseMessage = `Invalid info. The fields 'task' and 'status' are required on this body requisition`;
-  // const validReqBody = helpers.validateReqBody(query);
-  const findTask = await tasksModel.getById(parseInt(id));
+const updateTaskById = async (
+  query: UpdateTask,
+  id: number,
+  authorId: number,
+  subtasks?: any
+) => {
+  const findTask = await tasksModel.getById(id);
 
-  if (!findTask) return { statusCode: 404, responseMessage: 'task not found!' };
-  // if (!validReqBody) return { statusCode: 400, responseMessage };
+  if (!findTask) return { statusCode: 404, responseMessage: "task not found!" };
 
-  const updateInfos = await tasksModel.updateTaskById(query, parseInt(id), Subtask, authorId);
+  const updateInfos = await tasksModel.updateTaskById(
+    query,
+    id,
+    subtasks,
+    authorId
+  );
 
   return { responseMessage: updateInfos, statusCode: 200 };
 };
 
-const removeTaskById = async (id:string) => {
+const removeTaskById = async (id: number) => {
   const responseMessage = `invalid id, task not found!`;
   let statusCode = 404;
-  const findTask = await tasksModel.getById(parseInt(id));
+  const findTask = await tasksModel.getById(id);
 
   if (!findTask) return { statusCode, responseMessage };
 
-  const removeTask = await tasksModel.removeTaskById(parseInt(id));
+  const removeTask = await tasksModel.removeTaskById(id);
 
-  statusCode = removeTask === 'failed' ? 400 : 200;
+  statusCode = removeTask === "failed" ? 400 : 200;
+
+  return { responseMessage: removeTask, statusCode };
+};
+
+const removeAllSubtasksById = async (id: number) => {
+  const responseMessage = `invalid id, task not found!`;
+  let statusCode = 404;
+  const findTask = await tasksModel.getById(id);
+
+  if (!findTask) return { statusCode, responseMessage };
+
+  const removeTask = await tasksModel.removeAllSubtasksById(id);
+
+  statusCode = removeTask === "failed" ? 400 : 200;
 
   return { responseMessage: removeTask, statusCode };
 };
@@ -63,4 +84,5 @@ export default {
   create,
   updateTaskById,
   removeTaskById,
+  removeAllSubtasksById
 };

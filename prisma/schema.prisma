@@ -45,7 +45,7 @@ model Subtask {
   taskId          Int?
   parent          Subtask?  @relation("SubtaskToSubtask", fields: [parentSubtaskId], references: [id])
   parentSubtaskId Int?
-  subtasks        Subtask[] @relation("SubtaskToSubtask")
+  subtask         Subtask[] @relation("SubtaskToSubtask")
 }
 
 model Task {
@@ -55,7 +55,7 @@ model Task {
   title       String    @db.VarChar(255)
   description String?
   status      Status    @default(TODO)
-  Subtask     Subtask[]
+  subtask     Subtask[]
   author      User      @relation(fields: [authorId], references: [id])
   authorId    Int
 }

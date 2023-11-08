@@ -1,6 +1,14 @@
-import { db } from '../utils/db';
+import { db } from "../utils/db";
 
-const create = async ({ email, name, password }: { email:string, name:string, password:string }) => {
+const create = async ({
+  email,
+  name,
+  password
+}: {
+  email: string;
+  name: string;
+  password: string;
+}) => {
   const query = {
     name,
     password,
@@ -9,19 +17,18 @@ const create = async ({ email, name, password }: { email:string, name:string, pa
 
   try {
     await db.user.create({ data: query });
-    return 'user created successfully';
+    return "user created successfully";
   } catch (error) {
-    return 'something went wrong'
+    return "something went wrong";
   }
-
 };
 
-const getByEmail = async (email:string) => {
+const getByEmail = async (email: string) => {
   const userEmail = await db.user.findUnique({ where: { email } });
   return userEmail;
 };
 
 export default {
   create,
-  getByEmail,
+  getByEmail
 };
