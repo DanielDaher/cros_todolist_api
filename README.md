@@ -38,3 +38,17 @@ Agora sim estamos prontos para instalar o projeto.
 7. Agora você pode abrir seu navegador e digitar a url http://localhost:3000/swagger.
 
 ## Como usar o site?
+
+1. Após acessar a url http://localhost:3000/swagger, clique em `POST: /users` para criar um usuário. Clique no botão `Try it out` e edite o JSON, colocando as informações que deseja. Aperte o botão `execute`.
+
+2. Em seguida, repita este mesmo passo, mas agora clicando em`POST: /login`, passando no JSON o email e senha que você cadastrou. Após executar, verá que na sessão `Responses` existirá um Response Body.
+
+3. Copie o token do Response Body, mas apenas o que está dentro das strings.
+
+4. Vá até o topo da página, onde encontrará, no canto superior direito, o botão `Authorize`. Clique nele.
+
+5. Cole o token no input value e clique em Authorize. Em seguida, feche o modal clicando em `close`.
+
+6. Agora você está autenticado e poderá usar as demais rotas. Basta clicar nelas, clicar em `Try it out` e colocar as informações que deseja!
+
+7. IMPORTANTE: Ao editar tarefas ou buscar pelo id, é preciso passa-lo no input correspondente.
