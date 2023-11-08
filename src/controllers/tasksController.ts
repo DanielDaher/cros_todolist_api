@@ -34,8 +34,8 @@ const getById = async (req:IRequestUser, res:Response) => {
 const create = async (req:IRequestUser, res:Response) => {
   try {
     const { id: authorId } = req.user;
-    const { title, description, status } = req.body;
-    const insert = await tasksService.create({ title, description, status, authorId });
+    const { title, description, status, Subtask } = req.body;
+    const insert = await tasksService.create(req.body, Subtask, authorId);
   
     res.status(insert.statusCode).json(insert.responseMessage);
   } catch (error) {

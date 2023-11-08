@@ -1,16 +1,16 @@
 import { Prisma, Subtask, Task } from '@prisma/client';
 import { db } from '../utils/db';
 
-export type CreateTask = Prisma.Args<typeof db.task, 'create'>['data'];
-export type UpdateTask = Prisma.Args<typeof db.task, 'update'>['data'];
+export type CreateTask = Prisma.TaskCreateInput;
+export type UpdateTask = Prisma.TaskUpdateInput;
 
 const getAll = async (authorId:number) => {
   try {
     const tasks = await db.task.findMany({ where: { id: authorId } });
     return tasks;
   } catch (error) {
-    return [];
     console.error(error);
+    return [];
   }
 };
 
@@ -22,13 +22,22 @@ const getById = async (id:number) => {
     console.error(error)
   }
 };
-const create = async (query:CreateTask) => {
+const create = async (query:CreateTask, Subtask:Subtask[], authorId:number) => {
   try {
-    await db.task.create({ data: query });
+    await db.task.create({ data: {
+      ...query,
+      author: { connect: { id: authorId } },
+      Subtask: {
+        create: { 
+          ...Subtask,
+          author: { connect: { id: authorId } }
+         },
+      }
+    } });
     return 'task inserted successfully';
   } catch (error) {
+    console.error(error); 
    return 'failed';
-   console.error(error); 
   }
 };
 
@@ -53,8 +62,8 @@ const removeTaskById = async (id:number) => {
     await db.task.delete({ where: { id } });
     return 'task deleted succesfully'; 
   } catch (error) {
-    return 'failed';
     console.error(error)
+    return 'failed';
   }
 };
 

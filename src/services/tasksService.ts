@@ -17,13 +17,13 @@ const getById = async (id:string) => {
   return { statusCode: 200, responseMessage: task };
 };
 
-const create = async (query:CreateTask) => {
+const create = async (query:CreateTask, Subtask:Subtask[], authorId:number) => {
   const responseMessage = `Invalid info. The fields 'title' and 'status' are required on this body requisition`;
   const validReqBody = helpers.validateReqBody(query);
 
   if (!validReqBody) return { statusCode: 400, responseMessage };
 
-  const insert = await tasksModel.create(query);
+  const insert = await tasksModel.create(query, Subtask, authorId);
 
   const statusCode = insert === 'failed' ? 400 : 201;
 
