@@ -1,59 +1,40 @@
-# Express API Starter with Typescript
+# Cros To Do List API
+Boas vindas ao Cros To Do List API, onde pode se registrar, autenticar e criar listas de afazeres!
 
-How to use this template:
+## Objetivos:
 
-```sh
-npx create-express-api --typescript --directory my-api-name
-```
+Construir uma API que permita aos usuários criar e editar tarefas.
 
-Includes API Server utilities:
+## Como rodar a aplicação no computador:
 
-* [morgan](https://www.npmjs.com/package/morgan)
-  * HTTP request logger middleware for node.js
-* [helmet](https://www.npmjs.com/package/helmet)
-  * Helmet helps you secure your Express apps by setting various HTTP headers. It's not a silver bullet, but it can help!
-* [dotenv](https://www.npmjs.com/package/dotenv)
-  * Dotenv is a zero-dependency module that loads environment variables from a `.env` file into `process.env`
-* [cors](https://www.npmjs.com/package/cors)
-  * CORS is a node.js package for providing a Connect/Express middleware that can be used to enable CORS with various options.
+#### Seu computador precisa de Git (para versionamento do código), Node.js & npm (para executar a aplicação). Clique nos links, caso ainda não tenha instalado algum desses:
 
-Development utilities:
+ - [ ] [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+ - [ ] [Node.js e npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
-* [typescript](https://www.npmjs.com/package/typescript)
-  * TypeScript is a language for application-scale JavaScript.
-* [ts-node](https://www.npmjs.com/package/ts-node)
-  * TypeScript execution and REPL for node.js, with source map and native ESM support.
-* [nodemon](https://www.npmjs.com/package/nodemon)
-  * nodemon is a tool that helps develop node.js based applications by automatically restarting the node application when file changes in the directory are detected.
-* [eslint](https://www.npmjs.com/package/eslint)
-  * ESLint is a tool for identifying and reporting on patterns found in ECMAScript/JavaScript code.
-* [typescript-eslint](https://typescript-eslint.io/)
-  * Tooling which enables ESLint to support TypeScript.
-* [jest](https://www.npmjs.com/package/jest)
-  * Jest is a delightful JavaScript Testing Framework with a focus on simplicity.
-* [supertest](https://www.npmjs.com/package/supertest)
-  * HTTP assertions made easy via superagent.
+Agora sim estamos prontos para instalar o projeto.
 
-## Setup
+## Instalando a aplicação:
 
-```
-npm install
-```
+1. Primeiro, abra um novo terminal e clone o repositório utilizando o comando 
+`git clone git@github.com:DanielDaher/cros_todolist_api.git`
 
-## Lint
+2. Em seguida, digite `cd cros-todolist-api` para entrar no diretório (pasta) do projeto, que acabou de ser criada.
 
-```
-npm run lint
-```
+3. No terminal, execute `npm install` para instalar as dependências necessárias.
 
-## Test
+4. Execute também o comando `npx prisma generate`.
 
-```
-npm run test
-```
+5. Crie, na raiz do projeto, um arquivo com o nome `.env` e coloque as seguintes variáveis (uma por linha):
+  `DATABASE_URL="postgresql://postgres:choque_de_cultura123@db.mtttndyqehnthxkarimo.supabase.co:5432/postgres"`
+  `PORT=3000`
+  `NODE_ENV=development`
+  `JWT_ACCESS_SECRET=SECRET123`
+  `JWT_REFRESH_SECRET=ANOTHER_SECRET123`
+ Salve as modificações!
 
-## Development
+6. Com o comando `npm run dev`, o backend da aplicação já estará funcionando. Aguarde alguns segundos, que o terminal mostrará a mensagem `Listening: http://localhost:3000`, o que significa que está tudo certo.
 
-```
-npm run dev
-```
+7. Agora você pode abrir seu navegador e digitar a url http://localhost:3000/swagger.
+
+## Como usar o site?
